@@ -139,7 +139,7 @@
             return item;
         }
 
-        // Fetch and display news from The Hacker News RSS feed
+        // Fetch and display news from The Hacker News RSS feed using a CORS proxy
         fetch('https://cors-anywhere.herokuapp.com/https://feeds.feedburner.com/TheHackersNews')
             .then(response => response.text())
             .then(data => {
@@ -165,7 +165,7 @@
                 document.getElementById('news-items').textContent = 'Unable to fetch news. Please try again later.';
             });
 
-        // Fetch and display vulnerabilities from CVE API
+        // Fetch and display vulnerabilities from CVE API using a CORS proxy
         fetch('https://cors-anywhere.herokuapp.com/https://cve.circl.lu/api/last')
             .then(response => response.json())
             .then(data => {
