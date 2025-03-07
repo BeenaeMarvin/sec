@@ -31,7 +31,7 @@
         body {
             font-family: 'Open Sans', sans-serif;
             margin: 0;
-            background-color: #301934; /* Dark Plum Background */
+            background-color: #301934;
             color: #fff;
             line-height: 1.6;
             display: flex;
@@ -41,7 +41,7 @@
         }
         h1 {
             text-align: center;
-            color: #D8BFD8; /* Light Plum */
+            color: #D8BFD8;
             margin-bottom: 2rem;
             font-size: 2.5em;
         }
@@ -50,7 +50,7 @@
             max-width: 1200px;
             margin: 2rem auto;
             padding: 2rem;
-            background-color: #222; /* Dark Gray Background */
+            background-color: #222;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             position: relative;
@@ -58,24 +58,24 @@
         section {
             margin-bottom: 2rem;
             padding: 1.5rem;
-            border: 1px solid #4a144b; /* Plum Border */
+            border: 1px solid #4a144b;
             border-radius: 8px;
-            background-color: #333; /* Darker Gray Background */
+            background-color: #333;
         }
         h2 {
-            color: #DDA0DD; /* Plum */
+            color: #DDA0DD;
             margin-top: 0;
             margin-bottom: 1.5rem;
-            border-bottom: 2px solid #DDA0DD; /* Plum Border */
+            border-bottom: 2px solid #DDA0DD;
             padding-bottom: 0.5rem;
             font-size: 1.8em;
         }
         .news-item, .vulnerability-item {
             padding: 1rem;
             margin-bottom: 1rem;
-            border: 1px solid #663399; /* Violet Border */
+            border: 1px solid #663399;
             border-radius: 4px;
-            background-color: #444; /* Darker Gray Background */
+            background-color: #444;
         }
         .news-item {
             display: flex;
@@ -94,14 +94,14 @@
         .content h3, .vulnerability-item h3 {
             margin: 0 0 0.5rem;
             font-size: 1.4em;
-            color: #DDA0DD; /* Plum */
+            color: #DDA0DD;
         }
         .content a, .vulnerability-item a {
             text-decoration: none;
-            color: #DDA0DD; /* Plum Links */
+            color: #DDA0DD;
         }
         .content a:hover, .vulnerability-item a:hover {
-            color: #98FB98; /* Pale Green on hover */
+            color: #98FB98;
             text-decoration: underline;
         }
         small {
@@ -128,7 +128,6 @@
         footer a:hover {
             color: #98FB98;
         }
-        /* Responsive adjustments */
         @media (max-width: 768px) {
             .container {
                 width: 100%;
@@ -252,19 +251,26 @@
                 document.getElementById('news-items').textContent = 'Oops! Teddy couldn’t fetch the news. Try again later!';
             });
 
-        // Fetch and display vulnerabilities from NVD API
-        fetch('https://services.nvd.nist.gov/rest/json/cves/2.0?resultsPerPage=5')
+        // Fetch and display recent vulnerabilities from NVD API (last 30 days)
+        const now = new Date();
+        const thirtyDaysAgo = new Date(now.setDate(now.getDate() - 30));
+        const pubStartDate = thirtyDaysAgo.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+        fetch(`https://services.nvd.nist.gov/rest/json/cves/2.0?pubStartDate=${pubStartDate}T00:00:00Z&resultsPerPage=5`)
             .then(response => response.json())
             .then(data => {
                 const vulnerabilityItemsDiv = document.getElementById('vulnerability-items');
                 const cves = data.vulnerabilities;
-                for (let cve of cves) {
-                    const id = cve.cve.id;
-                    const summary = cve.cve.descriptions.find(desc => desc.lang === 'en')?.value || 'No description available';
-                    const link = `https://nvd.nist.gov/vuln/detail/${id}`;
-                    const published = cve.cve.published;
-                    const vulnerabilityItem = createVulnerabilityItem(id, summary, link, published);
-                    vulnerabilityItemsDiv.appendChild(vulnerabilityItem);
+                if (cves.length === 0) {
+                    vulnerabilityItemsDiv.textContent = 'No recent vulnerabilities found. Teddy’s keeping watch!';
+                } else {
+                    for (let cve of cves) {
+                        const id = cve.cve.id;
+                        const summary = cve.cve.descriptions.find(desc => desc.lang === 'en')?.value || 'No description available';
+                        const link = `https://nvd.nist.gov/vuln/detail/${id}`;
+                        const published = cve.cve.published;
+                        const vulnerabilityItem = createVulnerabilityItem(id, summary, link, published);
+                        vulnerabilityItemsDiv.appendChild(vulnerabilityItem);
+                    }
                 }
             })
             .catch(error => {
