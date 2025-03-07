@@ -139,22 +139,19 @@
             return item;
         }
 
-        // Fetch and display news from The Hacker News RSS feed using a CORS proxy
-        fetch('https://cors-anywhere.herokuapp.com/https://feeds.feedburner.com/TheHackersNews')
-            .then(response => response.text())
+        // Fetch and display news from The Hacker News via rss2json
+        fetch('https://api.rss2json.com/v1/api.json?rss_url=https://feeds.feedburner.com/TheHackersNews')
+            .then(response => response.json())
             .then(data => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(data, 'application/xml');
-                const items = doc.querySelectorAll('item');
                 const newsItemsDiv = document.getElementById('news-items');
                 let count = 0;
-                for (let item of items) {
+                for (let item of data.items) {
                     if (count >= 5) break;
-                    const title = item.querySelector('title').textContent;
-                    const description = item.querySelector('description').textContent;
-                    const link = item.querySelector('link').textContent;
-                    const pubDate = item.querySelector('pubDate').textContent;
-                    const imageUrl = item.querySelector('media\\:content')?.getAttribute('url');
+                    const title = item.title;
+                    const description = item.description;
+                    const link = item.link;
+                    const pubDate = item.pubDate;
+                    const imageUrl = item.thumbnail || null; // Use thumbnail if available
                     const newsItem = createNewsItem(title, description, link, imageUrl, pubDate);
                     newsItemsDiv.appendChild(newsItem);
                     count++;
@@ -165,21 +162,19 @@
                 document.getElementById('news-items').textContent = 'Unable to fetch news. Please try again later.';
             });
 
-        // Fetch and display vulnerabilities from CVE API using a CORS proxy
-        fetch('https://cors-anywhere.herokuapp.com/https://cve.circl.lu/api/last')
+        // Fetch and display vulnerabilities from NVD API
+        fetch('https://services.nvd.nist.gov/rest/json/cves/2.0?resultsPerPage=5')
             .then(response => response.json())
             .then(data => {
                 const vulnerabilityItemsDiv = document.getElementById('vulnerability-items');
-                let count = 0;
-                for (let cve of data) {
-                    if (count >= 5) break;
-                    const id = cve.id;
-                    const summary = cve.summary;
-                    const link = `https://cve.mitre.org/cgi-bin/cvename.cgi?name=${id}`;
-                    const published = cve.Published;
+                const cves = data.vulnerabilities;
+                for (let cve of cves) {
+                    const id = cve.cve.id;
+                    const summary = cve.cve.descriptions.find(desc => desc.lang === 'en')?.value || 'No description available';
+                    const link = `https://nvd.nist.gov/vuln/detail/${id}`;
+                    const published = cve.cve.published;
                     const vulnerabilityItem = createVulnerabilityItem(id, summary, link, published);
                     vulnerabilityItemsDiv.appendChild(vulnerabilityItem);
-                    count++;
                 }
             })
             .catch(error => {
