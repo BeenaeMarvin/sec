@@ -13,7 +13,7 @@
     <meta property="og:title" content="Tech Teddy’s Cybersecurity Alerts">
     <meta property="og:description" content="Your friendly tech bear brings you the latest cybersecurity news and vulnerabilities at tech-teddy.de. Stay updated and secure!">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://username.github.io/repo-name/cybersecurity-alert.html"> <!-- Replace with your actual URL -->
+    <meta property="og:url" content="https://username.github.io/repo-name/cybersecurity-alert.html"> <!-- Replace with your URL -->
     <meta property="og:image" content="https://username.github.io/repo-name/tech-teddy-logo.png"> <!-- Replace with your logo URL -->
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -22,55 +22,60 @@
     <meta name="twitter:image" content="https://username.github.io/repo-name/tech-teddy-logo.png"> <!-- Replace with your logo URL -->
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://username.github.io/repo-name/favicon.png"> <!-- Replace with your favicon URL -->
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
         }
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Open Sans', sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #F5E8C7;
-            color: #333;
-        }
-        header {
-            background-color: #8B5A2B;
+            background-color: #301934; /* Dark Plum Background */
             color: #fff;
-            padding: 1.5rem;
-            text-align: center;
-            border-bottom: 4px solid #6B4E31;
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        header h1 {
-            font-family: 'Comic Sans MS', cursive;
-            margin: 0;
+        h1 {
+            text-align: center;
+            color: #D8BFD8; /* Light Plum */
+            margin-bottom: 2rem;
             font-size: 2.5em;
         }
-        main {
-            padding: 2rem;
+        .container {
+            width: 90%;
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #222; /* Dark Gray Background */
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
         section {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #4a144b; /* Plum Border */
+            border-radius: 8px;
+            background-color: #333; /* Darker Gray Background */
         }
         h2 {
-            font-family: 'Comic Sans MS', cursive;
-            color: #8B5A2B;
-            border-bottom: 2px dashed #6B4E31;
+            color: #DDA0DD; /* Plum */
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #DDA0DD; /* Plum Border */
             padding-bottom: 0.5rem;
             font-size: 1.8em;
         }
         .news-item, .vulnerability-item {
-            background-color: #fff;
-            border: 2px solid #D3A074;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-        }
-        .news-item:hover, .vulnerability-item:hover {
-            transform: translateY(-5px);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #663399; /* Violet Border */
+            border-radius: 4px;
+            background-color: #444; /* Darker Gray Background */
         }
         .news-item {
             display: flex;
@@ -80,8 +85,8 @@
             width: 150px;
             height: 100px;
             object-fit: cover;
-            margin-right: 1.5rem;
-            border-radius: 10px;
+            margin-right: 1rem;
+            border-radius: 4px;
         }
         .content {
             flex: 1;
@@ -89,41 +94,91 @@
         .content h3, .vulnerability-item h3 {
             margin: 0 0 0.5rem;
             font-size: 1.4em;
-            color: #6B4E31;
+            color: #DDA0DD; /* Plum */
         }
         .content a, .vulnerability-item a {
             text-decoration: none;
-            color: #8B5A2B;
+            color: #DDA0DD; /* Plum Links */
         }
         .content a:hover, .vulnerability-item a:hover {
+            color: #98FB98; /* Pale Green on hover */
             text-decoration: underline;
-            color: #D3A074;
         }
         small {
             display: block;
-            color: #666;
+            color: #eee;
             margin-bottom: 0.5rem;
+            font-weight: 500;
         }
         p {
             margin: 0;
-            line-height: 1.6;
+            color: #fff;
+        }
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #4a144b;
+            color: #fff;
+        }
+        footer a {
+            color: #DDA0DD;
+            text-decoration: none;
+        }
+        footer a:hover {
+            color: #98FB98;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+            section {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            .news-item img {
+                width: 100px;
+                height: 70px;
+            }
+            .content h3, .vulnerability-item h3 {
+                font-size: 1.2em;
+            }
+            small, p {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Tech Teddy’s Cybersecurity Alerts</h1>
-    </header>
-    <main>
-        <section id="news">
-            <h2>Teddy’s News Snippets</h2>
-            <div id="news-items"></div>
-        </section>
-        <section id="vulnerabilities">
-            <h2>Teddy’s Vulnerability Watch</h2>
-            <div id="vulnerability-items"></div>
-        </section>
-    </main>
+    <div class="container">
+        <header>
+            <h1>Tech Teddy’s Cybersecurity Alerts</h1>
+        </header>
+        <main>
+            <section id="news">
+                <h2>Teddy’s News Snippets</h2>
+                <div id="news-items"></div>
+            </section>
+            <section id="vulnerabilities">
+                <h2>Teddy’s Vulnerability Watch</h2>
+                <div id="vulnerability-items"></div>
+            </section>
+        </main>
+        <footer>
+            <p>Powered by your friendly <a href="https://tech-teddy.de">Tech Teddy</a> | Keeping your digital cave secure!</p>
+        </footer>
+    </div>
     <script>
         // Function to create a news item HTML element
         function createNewsItem(title, description, link, imageUrl, pubDate) {
