@@ -254,20 +254,24 @@
         // Fetch and display recent vulnerabilities from NVD API (last 30 days)
         const now = new Date();
         const thirtyDaysAgo = new Date(now.setDate(now.getDate() - 30));
-        const pubStartDate = thirtyDaysAgo.toISOString(); // Full ISO format: YYYY-MM-DDTHH:MM:SSZ
-        const url = `https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate=${pubStartDate}&resultsPerPage=5`;
-        fetch(url)
+        const pubStartDate = thirtyDaysAgo.toISOString();
+        const pubEndDate = new Date().toISOString(); // Current date as end date
+        const apiKey = 'YOUR_API_KEY_HERE'; // Replace with your NVD API key or remove if not using
+        const url = `https://services.nvd.nist.gov/rest/json/cves/2.0/?pubStartDate=${pubStartDate}&pubEndDate=${pubEndDate}&resultsPerPage=5`;
+        fetch(url, {
+            headers: apiKey ? { 'apiKey': apiKey } : {}
+        })
             .then(response => {
                 if (!response.ok) {
                     return response.text().then(text => {
-                        throw new Error(`HTTP ${response.status}: ${text}`);
+                        throw new Error(`HTTP ${response.status}: ${text || 'Not Found'}`);
                     });
                 }
                 return response.json();
             })
             .then(data => {
                 const vulnerabilityItemsDiv = document.getElementById('vulnerability-items');
-                const cves = data.vulnerabilities;
+                const cves = data.vulnerabilities || [];
                 if (cves.length === 0) {
                     vulnerabilityItemsDiv.textContent = 'No recent vulnerabilities found. Teddy’s keeping watch!';
                 } else {
