@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Alert</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            padding: 1rem;
+        }
+        section {
+            margin-bottom: 2rem;
+        }
+        h2 {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 0.5rem;
+        }
+        .news-item {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            background-color: #fff;
+        }
+        .news-item img {
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+        .content {
+            flex: 1;
+        }
+        .content h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .content a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .content a:hover {
+            text-decoration: underline;
+        }
+        .vulnerability-item {
+            border-bottom: 1px solid #ccc;
+            padding: 0.5rem 0;
+        }
+        .vulnerability-item h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .vulnerability-item a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        .vulnerability-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cybersecurity Alert</h1>
+    </header>
+    <main>
+        <section id="news">
+            <h2>Latest News</h2>
+            <div id="news-items"></div>
+        </section>
+        <section id="vulnerabilities">
+            <h2>Latest Vulnerabilities</h2>
+            <div id="vulnerability-items"></div>
+        </section>
+    </main>
+    <script>
+        // Function to create a news item HTML element
+        function createNewsItem(title, description, link, imageUrl, pubDate) {
+            const item = document.createElement('div');
+            item.classList.add('news-item');
+            if (imageUrl) {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = `Image for ${title}`;
+                item.appendChild(img);
+            }
+            const content = document.createElement('div');
+            content.classList.add('content');
+            const titleElem = document.createElement('h3');
+            const titleLink = document.createElement('a');
+            titleLink.href = link;
+            titleLink.target = '_blank';
+            titleLink.textContent = title;
+            titleElem.appendChild(titleLink);
+            content.appendChild(titleElem);
+            const date = document.createElement('small');
+            date.textContent = new Date(pubDate).toLocaleDateString();
+            content.appendChild(date);
+            const desc = document.createElement('p');
+            desc.innerHTML = description;
+            content.appendChild(desc);
+            item.appendChild(content);
+            return item;
+        }
+
+        // Function to create a vulnerability item HTML element
+        function createVulnerabilityItem(id, summary, link, published) {
+            const item = document.createElement('div');
+            item.classList.add('vulnerability-item');
+            const titleElem = document.createElement('h3');
+            const titleLink = document.createElement('a');
+            titleLink.href = link;
+            titleLink.target = '_blank';
+            titleLink.textContent = id;
+            titleElem.appendChild(titleLink);
+            item.appendChild(titleElem);
+            const date = document.createElement('small');
+            date.textContent = new Date(published).toLocaleDateString();
+            item.appendChild(date);
+            const desc = document.createElement('p');
+            desc.textContent = summary;
+            item.appendChild(desc);
+            return item;
+        }
+
+        // Fetch and display news from The Hacker News RSS feed
+        fetch('https://feeds.feedburner.com/TheHackersNews')
+            .then(response => response.text())
+            .then(data => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data, 'application/xml');
+                const items = doc.querySelectorAll('item');
+                const newsItemsDiv = document.getElementById('news-items');
+                let count = 0;
+                for (let item of items) {
+                    if (count >= 5) break;
+                    const title = item.querySelector('title').textContent;
+                    const description = item.querySelector('description').textContent;
+                    const link = item.querySelector('link').textContent;
+                    const pubDate = item.querySelector('pubDate').textContent;
+                    const imageUrl = item.querySelector('media\\:content')?.getAttribute('url');
+                    const newsItem = createNewsItem(title, description, link, imageUrl, pubDate);
+                    newsItemsDiv.appendChild(newsItem);
+                    count++;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching news:', error);
+                document.getElementById('news-items').textContent = 'Unable to fetch news. Please try again later.';
+            });
+
+        // Fetch and display vulnerabilities from CVE API
+        fetch('https://cve.circl.lu/api/last')
+            .then(response => response.json())
+            .then(data => {
+                const vulnerabilityItemsDiv = document.getElementById('vulnerability-items');
+                let count = 0;
+                for (let cve of data) {
+                    if (count >= 5) break;
+                    const id = cve.id;
+                    const summary = cve.summary;
+                    const link = `https://cve.mitre.org/cgi-bin/cvename.cgi?name=${id}`;
+                    const published = cve.Published;
+                    const vulnerabilityItem = createVulnerabilityItem(id, summary, link, published);
+                    vulnerabilityItemsDiv.appendChild(vulnerabilityItem);
+                    count++;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching CVEs:', error);
+                document.getElementById('vulnerability-items').textContent = 'Unable to fetch vulnerabilities. Please try again later.';
+            });
+    </script>
+</body>
+</html>
