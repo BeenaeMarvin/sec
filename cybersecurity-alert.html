@@ -3,89 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cybersecurity Alert</title>
+    <!-- SEO Metadata -->
+    <title>Tech Teddy’s Cybersecurity Alerts - Latest News & Vulnerabilities</title>
+    <meta name="description" content="Stay safe with Tech Teddy’s Cybersecurity Alerts! Get the latest cybersecurity news and vulnerability updates from your friendly tech bear at tech-teddy.de.">
+    <meta name="keywords" content="cybersecurity alerts, tech teddy, cybersecurity news, latest vulnerabilities, tech-teddy.de, security updates">
+    <meta name="author" content="Tech Teddy">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph for Social Media -->
+    <meta property="og:title" content="Tech Teddy’s Cybersecurity Alerts">
+    <meta property="og:description" content="Your friendly tech bear brings you the latest cybersecurity news and vulnerabilities at tech-teddy.de. Stay updated and secure!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://username.github.io/repo-name/cybersecurity-alert.html"> <!-- Replace with your actual URL -->
+    <meta property="og:image" content="https://username.github.io/repo-name/tech-teddy-logo.png"> <!-- Replace with your logo URL -->
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tech Teddy’s Cybersecurity Alerts">
+    <meta name="twitter:description" content="Latest cybersecurity news and vulnerabilities from Tech Teddy at tech-teddy.de.">
+    <meta name="twitter:image" content="https://username.github.io/repo-name/tech-teddy-logo.png"> <!-- Replace with your logo URL -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://username.github.io/repo-name/favicon.png"> <!-- Replace with your favicon URL -->
     <style>
         * {
             box-sizing: border-box;
         }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #F5E8C7;
+            color: #333;
         }
         header {
-            background-color: #333;
+            background-color: #8B5A2B;
             color: #fff;
-            padding: 1rem;
+            padding: 1.5rem;
             text-align: center;
+            border-bottom: 4px solid #6B4E31;
+        }
+        header h1 {
+            font-family: 'Comic Sans MS', cursive;
+            margin: 0;
+            font-size: 2.5em;
         }
         main {
-            padding: 1rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         section {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
         h2 {
-            border-bottom: 1px solid #ccc;
+            font-family: 'Comic Sans MS', cursive;
+            color: #8B5A2B;
+            border-bottom: 2px dashed #6B4E31;
             padding-bottom: 0.5rem;
+            font-size: 1.8em;
+        }
+        .news-item, .vulnerability-item {
+            background-color: #fff;
+            border: 2px solid #D3A074;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .news-item:hover, .vulnerability-item:hover {
+            transform: translateY(-5px);
         }
         .news-item {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 1rem;
-            margin-bottom: 1rem;
             display: flex;
-            background-color: #fff;
+            align-items: center;
         }
         .news-item img {
             width: 150px;
             height: 100px;
             object-fit: cover;
-            margin-right: 1rem;
+            margin-right: 1.5rem;
+            border-radius: 10px;
         }
         .content {
             flex: 1;
         }
-        .content h3 {
-            margin: 0;
-            font-size: 1.2em;
+        .content h3, .vulnerability-item h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.4em;
+            color: #6B4E31;
         }
-        .content a {
+        .content a, .vulnerability-item a {
             text-decoration: none;
-            color: #007BFF;
+            color: #8B5A2B;
         }
-        .content a:hover {
+        .content a:hover, .vulnerability-item a:hover {
             text-decoration: underline;
+            color: #D3A074;
         }
-        .vulnerability-item {
-            border-bottom: 1px solid #ccc;
-            padding: 0.5rem 0;
+        small {
+            display: block;
+            color: #666;
+            margin-bottom: 0.5rem;
         }
-        .vulnerability-item h3 {
+        p {
             margin: 0;
-            font-size: 1.2em;
-        }
-        .vulnerability-item a {
-            text-decoration: none;
-            color: #007BFF;
-        }
-        .vulnerability-item a:hover {
-            text-decoration: underline;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Cybersecurity Alert</h1>
+        <h1>Tech Teddy’s Cybersecurity Alerts</h1>
     </header>
     <main>
         <section id="news">
-            <h2>Latest News</h2>
+            <h2>Teddy’s News Snippets</h2>
             <div id="news-items"></div>
         </section>
         <section id="vulnerabilities">
-            <h2>Latest Vulnerabilities</h2>
+            <h2>Teddy’s Vulnerability Watch</h2>
             <div id="vulnerability-items"></div>
         </section>
     </main>
@@ -110,7 +145,7 @@
             titleElem.appendChild(titleLink);
             content.appendChild(titleElem);
             const date = document.createElement('small');
-            date.textContent = new Date(pubDate).toLocaleDateString();
+            date.textContent = `Sniffed out on: ${new Date(pubDate).toLocaleDateString()}`;
             content.appendChild(date);
             const desc = document.createElement('p');
             desc.innerHTML = description;
@@ -131,7 +166,7 @@
             titleElem.appendChild(titleLink);
             item.appendChild(titleElem);
             const date = document.createElement('small');
-            date.textContent = new Date(published).toLocaleDateString();
+            date.textContent = `Spotted on: ${new Date(published).toLocaleDateString()}`;
             item.appendChild(date);
             const desc = document.createElement('p');
             desc.textContent = summary;
@@ -151,7 +186,7 @@
                     const description = item.description;
                     const link = item.link;
                     const pubDate = item.pubDate;
-                    const imageUrl = item.thumbnail || null; // Use thumbnail if available
+                    const imageUrl = item.thumbnail || null;
                     const newsItem = createNewsItem(title, description, link, imageUrl, pubDate);
                     newsItemsDiv.appendChild(newsItem);
                     count++;
@@ -159,7 +194,7 @@
             })
             .catch(error => {
                 console.error('Error fetching news:', error);
-                document.getElementById('news-items').textContent = 'Unable to fetch news. Please try again later.';
+                document.getElementById('news-items').textContent = 'Oops! Teddy couldn’t fetch the news. Try again later!';
             });
 
         // Fetch and display vulnerabilities from NVD API
@@ -179,7 +214,7 @@
             })
             .catch(error => {
                 console.error('Error fetching CVEs:', error);
-                document.getElementById('vulnerability-items').textContent = 'Unable to fetch vulnerabilities. Please try again later.';
+                document.getElementById('vulnerability-items').textContent = 'Yikes! Teddy’s paws couldn’t grab the vulnerabilities. Check back soon!';
             });
     </script>
 </body>
